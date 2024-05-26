@@ -126,15 +126,14 @@
 #include <stdlib.h>
 #endif
 
-#if !defined(__cplusplus)
-#if !defined(__STDC_VERSION__) || __STDC_VERSION__ < 201112L
-// BoringSSL requires C11 to build the library. The most likely cause of
-// pre-C11 modes is stale -std=c99 or -std=gnu99 flags in build configuration.
-// Such flags can be removed. If building with MSVC, build with /std:c11.
-#error "BoringSSL must be built in C11 mode or higher."
-#endif
+//#if !defined(__cplusplus)
+#if defined(_MSC_VER)
+#define alignas(x) __declspec(align(x))
+#define alignof __alignof
+#else
 #include <stdalign.h>
 #endif
+//#endif
 
 #if defined(OPENSSL_THREADS) && \
     (!defined(OPENSSL_WINDOWS) || defined(__MINGW32__))
